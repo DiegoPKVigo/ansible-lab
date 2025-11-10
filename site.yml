@@ -37,3 +37,28 @@
     - name: Mostrar archivos creados
       debug:
         msg: "{{ directory_listing.stdout_lines }}"
+
+    - name: Ejecutar comando echo
+      command: echo "Ansible está funcionando correctamente"
+      register: echo_result
+
+    - name: Mostrar resultado del echo
+      debug:
+        var: echo_result.stdout
+
+    - name: Crear múltiples archivos
+      file:
+        path: "{{ ansible_env.HOME }}/ansible-test/file{{ item }}.txt"
+        state: touch
+      loop:
+        - 1
+        - 2
+        - 3
+
+    - name: Mostrar fecha actual
+      command: date
+      register: current_date
+
+    - name: Imprimir fecha
+      debug:
+        msg: "Fecha actual: {{ current_date.stdout }}"
